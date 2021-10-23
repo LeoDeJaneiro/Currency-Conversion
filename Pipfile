@@ -5,8 +5,9 @@ name = "pypi"
 
 [packages]
 pytest = "*"
-sqlalchemy = "*"
 python-decouple = "*"
+SQLAlchemy = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
