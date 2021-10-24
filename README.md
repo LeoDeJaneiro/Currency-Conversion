@@ -1,23 +1,36 @@
-```json
-// http://api.exchangeratesapi.io/v1/timeseries?access_key={{access_key}}&start_date=2021-05-01&end_date=2021-05-25
+# Currency conversion
 
-{
-    "error": {
-        "code": "function_access_restricted",
-        "message": "Access Restricted - Your current Subscription Plan does not support this API Function."
-    }
-}
+Modelling of a multi source - multi target concurrency conversion task.
+
+The code has been formatted with `yapf`. For local development logs are stored in `./get_exchange_rates.log`
+
+## Prerequisites
+
+- Docker / Docker-Compose for local development using a PostgreSQL instance
+- Python3 (tested with 3.9) & pipenv
+
+## Prepare
+
+- Install python3 dependencies
+
+  ```bash
+  pipenv install -r requirements.txt
+  ```
+
+- Rename `.env.sample` to `.env` and fill in info
+
+## Run
+
+```bash
+# run PostgreSQL DB via Docker
+docker-compose up -d
+# run data load
+pipenv run python3 src/main.py
 ```
 
-```json
-// http://api.exchangeratesapi.io/v1/2021-10-11?access_key={{access_key}}&base=USD
+## Tests
 
-{
-    "error": {
-        "code": "base_currency_access_restricted",
-        "message": "An unexpected error ocurred. [Technical Support: support@apilayer.com]"
-    }
-}
+```bash
+# run unit test
+PYTHONPATH=. pipenv run pytest
 ```
-
-http://api.exchangeratesapi.io/v1/2021-10-11?access_key={{access_key}}&base=EUR

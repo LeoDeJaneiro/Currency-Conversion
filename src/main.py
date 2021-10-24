@@ -58,4 +58,5 @@ def main(timeout: int) -> None:
                        timeout=timeout)
 
 
-main(2000)
+if __name__ == '__main__':
+    main(2000)
