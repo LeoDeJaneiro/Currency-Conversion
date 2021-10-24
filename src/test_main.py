@@ -12,6 +12,5 @@ def test_get_date_stack():
     assert len(date_stack) == delta.days + 1
     assert date_stack[0] == today.strftime("%Y-%m-%d")
     assert date_stack[len(date_stack) - 1] == start_day.strftime("%Y-%m-%d")
-    assert today == start_day or date_stack[0] != date_stack[len(date_stack) - 1]
-
-
+    assert today == start_day or date_stack[0] != date_stack[len(date_stack) -
+                                                             1]

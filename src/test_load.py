@@ -4,6 +4,7 @@ from unittest.mock import patch, MagicMock
 
 from load import load_url
 
+
 class Test_load(unittest.TestCase):
     @patch('urllib.request.urlopen')
     def test_load_url(self, mock_urlopen):
