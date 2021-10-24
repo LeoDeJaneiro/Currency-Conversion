@@ -1,0 +1,32 @@
+SELECT input.date_date, input.target_currency, input.a_price AS price, b.symbol AS base_currency, CAST(input.a_price / r.rate AS NUMERIC(14,4)) AS converted_price
+	FROM exchange_rate r 
+	JOIN base_currency b ON r.base_currency_id = b.id 
+	JOIN target_currency t ON r.target_currency_id = t.id
+	RIGHT OUTER JOIN (
+		SELECT CAST('2021-10-23' AS DATE) AS date_date, CAST('GBP' AS CHAR(3)) AS target_currency, CAST('12.12' AS NUMERIC(14,4)) AS a_price UNION
+		SELECT CAST('2021-01-23' AS DATE) AS date_date, CAST('USD' AS CHAR(3)) AS target_currency, CAST('23456' AS NUMERIC(14,4)) AS a_price UNION
+		SELECT CAST('2021-01-22' AS DATE) AS date_date, CAST('GBP' AS CHAR(3)) AS target_currency, CAST('9876.53' AS NUMERIC(14,4)) AS a_price UNION
+		SELECT CAST('2021-01-21' AS DATE) AS date_date, CAST('USD' AS CHAR(3)) AS target_currency, CAST('50000' AS NUMERIC(14,4)) AS a_price UNION
+		SELECT CAST('2021-01-20' AS DATE) AS date_date, CAST('RUB' AS CHAR(3)) AS target_currency, CAST('123.33' AS NUMERIC(14,4)) AS a_price UNION
+		SELECT CAST('2021-01-19' AS DATE) AS date_date, CAST('RUB' AS CHAR(3)) AS target_currency, CAST('333.33' AS NUMERIC(14,4)) AS a_price
+	) input ON input.target_currency = t.symbol AND input.date_date = r.date 
+	AND b.symbol = 'EUR'
+ORDER BY date_date, target_currency
+
+/*
+SELECT DATE_TRUNC('month',date)::date AS month, input.target_currency, SUM(input.a_price) AS price_sum, b.symbol AS base_currency, 
+	SUM(CAST(input.a_price / r.rate AS NUMERIC(14,4)))AS converted_price_sum
+		FROM exchange_rate r 
+		JOIN base_currency b ON r.base_currency_id = b.id 
+		JOIN target_currency t ON r.target_currency_id = t.id
+		RIGHT OUTER JOIN (
+			SELECT CAST('2021-10-23' AS DATE) AS date_date, CAST('GBP' AS CHAR(3)) AS target_currency, CAST('12.12' AS NUMERIC(14,4)) AS a_price UNION
+			SELECT CAST('2021-01-23' AS DATE) AS date_date, CAST('USD' AS CHAR(3)) AS target_currency, CAST('23456' AS NUMERIC(14,4)) AS a_price UNION
+			SELECT CAST('2021-01-22' AS DATE) AS date_date, CAST('GBP' AS CHAR(3)) AS target_currency, CAST('9876.53' AS NUMERIC(14,4)) AS a_price UNION
+			SELECT CAST('2021-01-21' AS DATE) AS date_date, CAST('USD' AS CHAR(3)) AS target_currency, CAST('50000' AS NUMERIC(14,4)) AS a_price UNION
+			SELECT CAST('2021-01-20' AS DATE) AS date_date, CAST('RUB' AS CHAR(3)) AS target_currency, CAST('123.33' AS NUMERIC(14,4)) AS a_price UNION
+			SELECT CAST('2021-01-19' AS DATE) AS date_date, CAST('RUB' AS CHAR(3)) AS target_currency, CAST('333.33' AS NUMERIC(14,4)) AS a_price
+		) input ON input.target_currency = t.symbol AND input.date_date = r.date 
+		AND b.symbol = 'EUR'
+GROUP BY month, base_currency, target_currency
+*/
