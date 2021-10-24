@@ -28,9 +28,13 @@ docker-compose up -d
 pipenv run python3 src/main.py
 ```
 
-## Tests
+## Unit Tests
 
 ```bash
-# run unit test
-PYTHONPATH=. pipenv run pytest
+# run tests
+pipenv run pytest src
+# watch mode
+pipenv run pytest-watch -n src
+# coverage
+pipenv run pytest --cov=src
 ```

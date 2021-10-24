@@ -1,4 +1,7 @@
 pytest
+pytest-cov
+pytest-watch
+pytest-mock
 sqlalchemy
 psycopg2
 python-decouple

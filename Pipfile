@@ -8,6 +8,9 @@ pytest = "*"
 python-decouple = "*"
 SQLAlchemy = "*"
 psycopg2 = "*"
+pytest-cov = "*"
+pytest-watch = "*"
+pytest-mock = "*"
 
 [dev-packages]
 
