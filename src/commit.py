@@ -54,12 +54,12 @@ def execute_load(**kwargs: dict) -> Callable:
     return load()
 
 
-def load_data_threaded(**kwargs: dict) -> None:
+def load_data_multi_processes(**kwargs: dict) -> None:
     Session = kwargs.get("Session")
     max_workers = kwargs.get("max_workers")
     dates = kwargs.get("dates")
 
-    with concurrent.futures.ThreadPoolExecutor(
+    with concurrent.futures.ProcessPoolExecutor(
             max_workers=max_workers) as executor:
         future_to_load: dict = {}
         for date in dates:
@@ -74,8 +74,7 @@ def load_data_threaded(**kwargs: dict) -> None:
         for future in concurrent.futures.as_completed(future_to_load):
             current_date = future_to_load[future]
             try:
+                logging.info(f'{current_date} success')
                 future.result()
             except Exception as e:
                 logging.error(f'{current_date} {repr(e)}')
-            else:
-                logging.info(f'{current_date} success')

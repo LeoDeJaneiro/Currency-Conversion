@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 from model import create_schema
-from commit import commit_currency_relations, load_data_threaded
+from commit import commit_currency_relations, load_data_multi_processes
 
 logging.basicConfig(filename='get_exchange_rates.log',
                     format='%(asctime)s %(levelname)s:%(message)s',
@@ -39,7 +39,7 @@ def main(timeout: int) -> None:
     engine = create_engine(
         f'postgresql://{USER}:{PASSWORD}@localhost/{DB}',
         # limits engine instantiation of 1 connection per thread
-        pool_size=1,
+        pool_size=5,
         max_overflow=0)
 
     create_schema(engine)
@@ -50,7 +50,7 @@ def main(timeout: int) -> None:
     base_currencies, target_currencies = commit_currency_relations(
         session, timeout)
     dates = get_date_stack()
-    load_data_threaded(dates=dates,
+    load_data_multi_processes(dates=dates,
                        Session=Session,
                        base_currencies=base_currencies,
                        target_currencies=target_currencies,
