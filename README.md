@@ -1,6 +1,6 @@
 # Currency conversion
 
-Modelling of a multi source - multi target concurrency conversion task.
+A multi source - multi target currency-conversion modelling (PostgreSQL), based on conversion rates which, first, need to be fetched from an API.
 
 The code has been formatted with `yapf`. For local development logs are stored in `./get_exchange_rates.log`
 
